@@ -1,0 +1,2 @@
+    &lt;BagType&gt;Al&lt;/BagType&gt;
+    &lt;BoxType&gt;bl&lt;/BoxType&gt;
