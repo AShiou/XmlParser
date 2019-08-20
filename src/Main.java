@@ -1,43 +1,47 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+
+import org.dom4j.xpath.DefaultXPath;
+import org.dom4j.Document;
+import org.dom4j.io.SAXReader;
+import org.dom4j.Element;
+import org.dom4j.Node;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        if (args.length < 2) {
-            System.out.println("Need to input one xml file name and one file name for output");
-            return;
-        }
-        //args[0] = "/Users/shiou/IdeaProjects/xmlParser/src/test.txt";
-        File inputFile = new File(args[0]);
-        File outputFile = new File(args[1]);
-        Scanner sc = null;
-        try {
-            sc = new Scanner(inputFile);
-            while (sc.hasNextLine()) {
-                String oneLineData = sc.nextLine();
-                String data = xmlParse(oneLineData);
-                System.out.println(data);
+try {
+    File inputFile = new File(args[0]);
+    Document document = null;
+    SAXReader saxReader = new SAXReader();
+    document = saxReader.read(inputFile);
+    DefaultXPath xpath = new DefaultXPath("//ns2:task");
+    xpath.setNamespaceURIs(Collections.singletonMap("ns2", "http://www.ustcsoft.com"));
+    List<Node> list = xpath.selectNodes(document);
+    if (list.size() > 0) {
+        for (int j = 0; j < list.size(); j++) {
+            
+            Element element = (Element) list.get(j);
+            System.out.println(list.get(j).selectSingleNode("custname").getText());
+
+            //遍歷
+            for (Iterator<Element> it = element.elementIterator(); it.hasNext(); ) {
+                Element element2 = it.next();
+                String name = element2.getName();
+                String content = element2.getText();
+                System.out.println(name+":"+content);
+
             }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(args[0] + " not exist.");
-        } finally {
-            sc.close();
-        }
 
+        }
     }
+} catch (Exception e) {
+    e.printStackTrace();
+}
 
-    public static String xmlParse(String oneLineData) {
-        String[] tokens = oneLineData.split("&[gl]t;");
-        if (tokens.length < 4) return null;
-        StringBuilder keyValue = new StringBuilder();
-        keyValue.append(tokens[1]);
-        keyValue.append("=");
-        for (int i = 2; i < tokens.length - 1; i++) {
-            keyValue.append(tokens[i]);
-        }
-        return keyValue.toString();
     }
 }
