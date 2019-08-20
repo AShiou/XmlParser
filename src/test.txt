@@ -1,2 +1,15 @@
-    &lt;BagType&gt;Al&lt;/BagType&gt;
-    &lt;BoxType&gt;bl&lt;/BoxType&gt;
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:root xmlns:ns2="http://www.ustcsoft.com">
+            <ns2:task>
+                <userid>myc</userid>
+                <custname>testName</custname>
+                <title>testTitle</title>
+                <nodename>testNodename</nodename>
+                <recetime>testRecetime</recetime>
+                <tasktype>1</tasktype>
+            </ns2:task>
+        </ns2:root>
+    </soap:Body>
+</soap:Envelope>
